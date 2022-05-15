@@ -69,3 +69,72 @@ CREATE TABLE Libros(
 
 );
 
+
+
+
+-- DATOS QUEMADOS
+
+			
+INSERT INTO DBO.Categorias ( nombre)
+VALUES
+('CIENCIA FICCION'),
+( 'AVENTURA'),
+('ROMANCE');
+
+
+
+
+INSERT INTO DBO.Autor( nombre, apellidos)
+VALUES
+('Juan','Perez'),
+( 'Edgar','Allan Poe'),
+('Gabriel','Garcia Marquez');
+
+
+INSERT INTO DBO.Idioma( nombre)
+VALUES
+('ESPANOL'),
+( 'INGLES');
+
+INSERT INTO DBO.Libros( idAutor, idCategoria, idEditorial, idIdioma, titulo)
+VALUES
+(3,3,1,1, 'Cien Anos de Soledad'),
+(1,1,2,2, 'Maze Runner');
+
+
+
+
+
+
+-- CONSULTA DE LIBROS--
+
+CREATE PROCEDURE ConsultarLibros
+	@Id int,
+	@Titulo varchar(35)
+AS
+BEGIN	
+	BEGIN TRY 
+
+	SELECT idLibros, Autor.nombre, titulo, fechaLanzamiento, descripcion FROM dbo.Libros
+			INNER JOIN Autor ON Libros.idAutor = Autor.idAutor
+			WHERE idLibros = @Id and titulo = @Titulo
+
+	END TRY
+BEGIN CATCH
+ SELECT  
+            ERROR_NUMBER() AS ErrorNumber  
+            ,ERROR_SEVERITY() AS ErrorSeverity  
+            ,ERROR_STATE() AS ErrorState  
+            ,ERROR_PROCEDURE() AS ErrorProcedure  
+            ,ERROR_LINE() AS ErrorLine  
+            ,ERROR_MESSAGE() AS ErrorMessage;
+
+END CATCH
+END
+GO
+
+
+EXECUTE ConsultarLibros  @Id =1, @Titulo= 'Cien anos de Soledad'
+
+
+

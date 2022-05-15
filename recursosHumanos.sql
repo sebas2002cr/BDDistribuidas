@@ -94,7 +94,7 @@ values (5,2,1,5,'1234567','Jesus','12/02/1987','TRUE'),
 
 
 --PROCEDIMEINTO
-CREATE PROCEDURE [dbo].[ValidarProfesor]
+CREATE PROCEDURE [dbo].[ValidarProfesorConID]
 	@IdProfesor INT,
 	@flat BIT OUTPUT 
 	
@@ -106,9 +106,9 @@ BEGIN
     
    IF EXISTS (SELECT Todos.IdProfesor,Todos.activo FROM(SELECT activo,IdProfesor FROM [dbo].[Profesor]
               UNION 
-              SELECT activo,IdProfesor FROM [VAIO\SEDESANJOSE].[recursosHumanossSJO].[dbo].[Profesor]
+              SELECT activo,IdProfesor FROM [DESKTOP-4QADVM8\SQLRH_SJO].[recursosHumanossSJO].[dbo].[Profesor]
               UNION
-              SELECT activo,IdProfesor FROM [VAIO\SEDEALAJUELA].[recursosHumanosALJ].[dbo].[Profesor] )Todos
+              SELECT activo,IdProfesor FROM [DESKTOP-4QADVM8\SQLRH_ALJ].[recursosHumanosALJ].[dbo].[Profesor] )Todos
               WHERE Todos.IdProfesor = @IdProfesor AND Todos.activo = 'TRUE')
       BEGIN
         SET @flat = 'TRUE'
@@ -131,7 +131,44 @@ END
 
 DECLARE @active BIT
 EXEC  ValidarProfesor @IdProfesor = 6,  @flat = @active OUTPUT
-PRINT @active
+SELECT @active
 
 
+CREATE PROCEDURE [dbo].[ValidarProfesorConUsuario]
+	@IdUsuario INT,
+	@flat BIT OUTPUT 
+	
+AS
+BEGIN
+  BEGIN TRY   -- statements that may cause exceptions
 
+   SET @flat = 'FALSE'
+    
+   IF EXISTS (SELECT Todos.IdUsuario,Todos.activo FROM(SELECT activo,IdUsuario FROM [dbo].[Profesor]
+              UNION 
+              SELECT activo,IdUsuario FROM [DESKTOP-4QADVM8\SQLRH_SJO].[recursosHumanossSJO].[dbo].[Profesor]
+              UNION
+              SELECT activo,IdUsuario FROM [DESKTOP-4QADVM8\SQLRH_ALJ].[recursosHumanosALJ].[dbo].[Profesor] )Todos
+              WHERE Todos.IdUsuario = @IdUsuarioAND Todos.activo = 'TRUE')
+      BEGIN
+        SET @flat = 'TRUE'
+      END
+
+    
+END TRY  
+
+BEGIN CATCH  -- statements that handle exception
+			 SELECT  
+            ERROR_NUMBER() AS ErrorNumber  
+            ,ERROR_SEVERITY() AS ErrorSeverity  
+            ,ERROR_STATE() AS ErrorState  
+            ,ERROR_PROCEDURE() AS ErrorProcedure  
+            ,ERROR_LINE() AS ErrorLine  
+            ,ERROR_MESSAGE() AS ErrorMessage;
+
+END CATCH
+END
+
+DECLARE @active BIT
+EXEC  ValidarProfesor @IdUsuario = 1,  @flat = @active OUTPUT
+SELECT @active

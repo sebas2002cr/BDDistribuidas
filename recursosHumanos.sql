@@ -24,6 +24,7 @@ CREATE TABLE Profesor (
   IdProfesor int identity,
   IdSede int,
   IdPuesto int,
+  IdUsusario int,
   cedula varchar,
   nombre varchar,
   fechaNacimiento date,

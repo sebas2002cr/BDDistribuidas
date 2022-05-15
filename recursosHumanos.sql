@@ -62,3 +62,47 @@ insert into Profesor( IdProfesor,IdSede,IdPuesto,IdUsuario,cedula,nombre,fechaNa
 values (5,2,1,5,'1234567','Jesus','16/02/1987','TRUE'),
        (6,2,1,6,'2345678','Mariana','14/02/2000','TRUE')
 
+
+
+--PROCEDIMEINTO
+CREATE PROCEDURE [dbo].[ValidarProfesor]
+	@IdProfesor INT,
+	@flat BIT OUTPUT 
+	
+AS
+BEGIN
+  BEGIN TRY   -- statements that may cause exceptions
+
+   SET @flat = 'FALSE'
+    
+   IF EXISTS (SELECT Todos.IdProfesor,Todos.activo FROM(SELECT activo,IdProfesor FROM [dbo].[Profesor]
+              UNION 
+              SELECT activo,IdProfesor FROM [VAIO\SEDESANJOSE].[recursosHumanossSJO].[dbo].[Profesor]
+              UNION
+              SELECT activo,IdProfesor FROM [VAIO\SEDEALAJUELA].[recursosHumanosALJ].[dbo].[Profesor] )Todos
+              WHERE Todos.IdProfesor = @IdProfesor AND Todos.activo = 'TRUE')
+      BEGIN
+        SET @flat = 'TRUE'
+      END
+
+    
+END TRY  
+
+BEGIN CATCH  -- statements that handle exception
+			 SELECT  
+            ERROR_NUMBER() AS ErrorNumber  
+            ,ERROR_SEVERITY() AS ErrorSeverity  
+            ,ERROR_STATE() AS ErrorState  
+            ,ERROR_PROCEDURE() AS ErrorProcedure  
+            ,ERROR_LINE() AS ErrorLine  
+            ,ERROR_MESSAGE() AS ErrorMessage;
+
+END CATCH
+END
+
+DECLARE @active BIT
+EXEC  ValidarProfesor @IdProfesor = 6,  @flat = @active OUTPUT
+PRINT @active
+
+
+

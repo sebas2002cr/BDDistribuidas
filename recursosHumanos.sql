@@ -1,3 +1,4 @@
+-- CARTAGO
 CREATE TABLE Departamento (
   IdDepartamento int identity,
   nombre varchar(32),
@@ -21,10 +22,10 @@ CREATE TABLE Sede (
 );
 
 CREATE TABLE Profesor (
-  IdProfesor int identity,
+  IdProfesor int,
   IdSede int,
   IdPuesto int,
-  IdUsusario int,
+  IdUsuario int,
   cedula varchar(32),
   nombre varchar(32),
   fechaNacimiento date,
@@ -38,7 +39,7 @@ CREATE TABLE Profesor (
   REFERENCES Sede(IdSede)
 );
 
---CARTAGO
+-- datos
 insert into dbo.Departamento(nombre)
 values('Escuela Computacion')
 
@@ -48,19 +49,47 @@ values(1,'Profesor')
 insert into Sede(nombre)
 values ('Cartago'),('Alajuela'),('San Jose')
 
-insert into Profesor( IdProfesor,IdSede,IdPuesto,IdUsuario,cedula,nombre,fechaNacimiento,activo)
+insert into Profesor(IdProfesor,IdSede,IdPuesto,IdUsuario,cedula,nombre,fechaNacimiento,activo)
 values (1,1,1,1,'12345','Ernesto','12/02/1987','TRUE'),
        (2,1,1,2,'23456','Pancho','12/02/1985','TRUE')
-	     
---SAN JOSE
+
+
+-- SAN JOSE
+CREATE TABLE Profesor (
+  IdProfesor int,
+  IdSede int,
+  IdPuesto int,
+  IdUsuario int,
+  cedula varchar(32),
+  nombre varchar(32),
+  fechaNacimiento date,
+  activo bit,
+  PRIMARY KEY (IdProfesor)
+);
+
+-- datos
 insert into Profesor( IdProfesor,IdSede,IdPuesto,IdUsuario,cedula,nombre,fechaNacimiento,activo)
 values (3,3,1,3,'123456','Roberto','12/02/1987','TRUE'),
        (4,3,1,4,'234567','Francisco','12/02/1985','TRUE')
 
---ALAJUELA
+
+-- ALAJUELA
+CREATE TABLE Profesor (
+  IdProfesor int,
+  IdSede int,
+  IdPuesto int,
+  IdUsuario int,
+  cedula varchar(32),
+  nombre varchar(32),
+  fechaNacimiento date,
+  activo bit,
+  PRIMARY KEY (IdProfesor)
+);
+
+-- datos
 insert into Profesor( IdProfesor,IdSede,IdPuesto,IdUsuario,cedula,nombre,fechaNacimiento,activo)
-values (5,2,1,5,'1234567','Jesus','16/02/1987','TRUE'),
-       (6,2,1,6,'2345678','Mariana','14/02/2000','TRUE')
+values (5,2,1,5,'1234567','Jesus','12/02/1987','TRUE'),
+       (6,2,1,6,'2345678','Mariana','12/02/2000','TRUE')
 
 
 

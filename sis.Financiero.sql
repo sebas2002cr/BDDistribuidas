@@ -33,9 +33,9 @@ values (1, 1, 10000, 'Pagos acumulados', 1), -- profesores
        (3, 2, 10000, 'Pagos acumulados', 0),
        (3, 3, 30000, 'Pagos acumulados', 1),
        (4, 1, 10000, 'Pagos acumulados', 0),
-       (4, 1, 10000, 'Pagos acumulados', 0)
+       (4, 1, 10000, 'Pagos acumulados', 0),
        (7, 1, 10000, 'Pagos acumulados', 0), -- estudiantes
-       (8, 2, 20000, 'Pagos acumulados', 1)
+       (8, 2, 20000, 'Pagos acumulados', 1),
        (9, 3, 30000, 'Pagos acumulados', 0),
        (9, 2, 20000, 'Pagos acumulados', 0)
 

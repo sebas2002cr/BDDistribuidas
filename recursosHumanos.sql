@@ -170,5 +170,5 @@ END CATCH
 END
 
 DECLARE @active BIT
-EXEC  ValidarProfesor @IdUsuario = 1,  @flat = @active OUTPUT
+EXEC  ValidarProfesorConUsuario @IdUsuario = 1,  @flat = @active OUTPUT
 SELECT @active

@@ -1,7 +1,3 @@
-use Libros
-
-
-
 CREATE TABLE Categorias(
 	idCategoria int identity,
 	nombre varchar(20)
@@ -46,8 +42,7 @@ CREATE TABLE Libros(
 	fechaLanzamiento date,
 	cantPaginas int,
 	descripcion varchar(300)
-	PRIMARY KEY (idAutor)
-
+	PRIMARY KEY (idLibros)
 
 
 	CONSTRAINT FK_LibrosIdIdioma
@@ -65,11 +60,7 @@ CREATE TABLE Libros(
 	CONSTRAINT FK_LibrosIdAutor
 	FOREIGN KEY (idAutor)
 	REFERENCES Autor(idAutor),
-
-
 );
-
-
 
 
 -- DATOS QUEMADOS
@@ -81,43 +72,45 @@ VALUES
 ( 'AVENTURA'),
 ('ROMANCE');
 
-
-
-
 INSERT INTO DBO.Autor( nombre, apellidos)
 VALUES
 ('Juan','Perez'),
 ( 'Edgar','Allan Poe'),
 ('Gabriel','Garcia Marquez');
 
-
 INSERT INTO DBO.Idioma( nombre)
 VALUES
 ('ESPANOL'),
 ( 'INGLES');
 
-INSERT INTO DBO.Libros( idAutor, idCategoria, idEditorial, idIdioma, titulo)
+
+INSERT INTO DBO.Editoriales(nombre, direccion )
+VALUES
+('Laravel', '22-c'),
+('MadHouse', '22-b');
+
+
+INSERT INTO DBO.Libros(idAutor, idCategoria, idEditorial, idIdioma, titulo)
 VALUES
 (3,3,1,1, 'Cien Anos de Soledad'),
-(1,1,2,2, 'Maze Runner');
-
-
-
-
+(1,1,2,2, 'Maze Runner'),
+(2,1,1,1, 'Libro3'),
+(1,3,2,1, 'Libro4'),
+(2,2,1,1, 'Libro5'),
+(3,1,2,1, 'Libro6');
 
 
 -- CONSULTA DE LIBROS--
 
-CREATE PROCEDURE ConsultarLibros
-	@Id int,
-	@Titulo varchar(35)
+CREATE PROCEDURE ConsultarLibro
+	@IdLibro int
 AS
 BEGIN	
 	BEGIN TRY 
 
 	SELECT idLibros, Autor.nombre, titulo, fechaLanzamiento, descripcion FROM dbo.Libros
 			INNER JOIN Autor ON Libros.idAutor = Autor.idAutor
-			WHERE idLibros = @Id and titulo = @Titulo
+			WHERE idLibros = @IdLibro
 
 	END TRY
 BEGIN CATCH
@@ -134,7 +127,7 @@ END
 GO
 
 
-EXECUTE ConsultarLibros  @Id =1, @Titulo= 'Cien anos de Soledad'
+EXECUTE ConsultarLibro  @IdLibro =1
 
 
 

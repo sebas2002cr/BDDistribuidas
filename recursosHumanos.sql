@@ -94,9 +94,9 @@ values (5,2,1,5,'1234567','Jesus','12/02/1987','TRUE'),
 
 
 --PROCEDIMEINTO
-CREATE PROCEDURE [dbo].[ValidarProfesorConID]
-	@IdProfesor INT,
-	@flat BIT OUTPUT 
+DECLARE @active BIT
+EXEC  ValidarProfesorConID @IdProfesor = 6,  @flat = @active OUTPUT
+SELECT @active
 	
 AS
 BEGIN
